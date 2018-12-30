@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { Link } from 'react-router-dom';
 
 class UserDetail extends Component {
     state = { user: null, posts: null, albums: null }
@@ -93,6 +94,7 @@ class UserDetail extends Component {
                             <div>
                                 <h3>{data.title}</h3>
                                 <h5>{data.body}</h5>
+                                <Link to={`/posts/${data.id}`}>See Comments</Link>
                             </div>
                         }
                     </div>
