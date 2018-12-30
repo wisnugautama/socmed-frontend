@@ -1,10 +1,11 @@
 import React, { Component } from 'react';
 
 class UserDetail extends Component {
-    state = { user: null }
+    state = { user: null, posts: null }
 
     componentWillMount() {
         this.handleGetUserDetail()
+        this.handleGetUserPost()
     }
 
     handleGetUserDetail = () => {
@@ -16,6 +17,23 @@ class UserDetail extends Component {
             .then((responseJSON) => {
                 this.setState({
                     user: responseJSON
+                })
+            })
+            .catch((err) => {
+                console.log(err)
+            })
+    }
+
+    handleGetUserPost = () => {
+        let url = `https://jsonplaceholder.typicode.com/posts`;
+        fetch(url, {
+            method: 'GET'
+        })
+            .then((response) => response.json())
+            .then((responseJSON) => {
+                console.log(responseJSON)
+                this.setState({
+                    posts: responseJSON
                 })
             })
             .catch((err) => {
@@ -44,10 +62,32 @@ class UserDetail extends Component {
             )
         }
     }
+
+    renderUserPost = () => {
+        let { user, posts } = this.state
+        if (posts !== null) {
+            return posts.map((data, index) => {
+                return (
+                    <div key={index}>
+                        {
+                            data.userId == this.props.match.params.id
+                            &&
+                            <div>
+                                <h3>{data.title}</h3>
+                                <h5>{data.body}</h5>
+                            </div>
+                        }
+                    </div>
+                )
+            })
+        }
+    }
+    
     render() {
         return (
             <div>
                 {this.renderUserDetail()}
+                {this.renderUserPost()}
             </div>
         )
     }
