@@ -2,37 +2,14 @@ import React, { Component } from 'react';
 import { Link } from 'react-router-dom'
 
 class CardPost extends Component {
-    state = { posts: null }
-
-    componentWillMount() {
-        this.handleGetPosts()
-    }
-
-    handleGetPosts = () => {
-        let url = `https://jsonplaceholder.typicode.com/posts`;
-        fetch(url, {
-            method: 'GET'
-        })
-            .then((response) => response.json())
-            .then((responseJSON) => {
-                console.log(responseJSON)
-                this.setState({
-                    posts: responseJSON
-                })
-            })
-            .catch((err) => {
-                console.log(err)
-            })
-    }
-
     renderPosts = () => {
-        let { posts } = this.state
+        let { posts } = this.props
         if (posts !== null) {
             return posts.map((data, index) => {
                 return (
-                    <div key={index} style={{ marginLeft: 20, marginRight: 20 }}>
-                        <h3 style={{ textAlign: 'left' }}>{data.title}</h3>
-                        <h5 style={{ textAlign: 'left' }}>{data.body}</h5>
+                    <div key={index} style={{ marginLeft: 20, marginRight: 20, width: '600px', backgroundColor: 'white', marginBottom: '20px', paddingLeft: '10px', borderRadius: 5, paddingRight: '10px' }}>
+                        <h5 style={{ textAlign: 'left' }}>{data.title}</h5>
+                        <p style={{ textAlign: 'left' }}>{data.body}</p>
                         <Link to={`/posts/${data.id}`}>See Details</Link>
                     </div>
                 )
@@ -43,7 +20,6 @@ class CardPost extends Component {
     render() {
         return (
             <div>
-                <h1>Today's News</h1>
                 {this.renderPosts()}
             </div>
         )

@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
+import CardPost from '../CardPost';
 
 class UserDetail extends Component {
     state = { user: null, posts: null, albums: null }
@@ -64,12 +65,12 @@ class UserDetail extends Component {
         let { user } = this.state
         if (user !== null) {
             return (
-                <div>
-                    <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                        <img src={`https://i.pinimg.com/originals/0b/af/10/0baf106e328a19dddd2093436197961f.png`} alt="" style={{ width: '50px', height: '60px' }} />
-                        <h3>{user.name}</h3>
+                <div style={{ width: '300px', backgroundColor: 'white', marginTop: '20px', marginLeft: '20px', borderRadius: 5 }}>
+                    <div style={{ display: 'flex', alignItems: 'center' }}>
+                        <img src={`https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT7vMaiafi7i7cF_uTr75FdTgqr12IBvpZS0JRidSmjMlhO2oGX`} alt="" style={{ width: '100px', height: '100px', borderRadius: 5, marginRight: '10px', marginLeft: '10px', marginTop: '10px', marginBottom: '10px' }} />
+                        <h5>{user.name}</h5>
                     </div>
-                    <div style={{ display: 'flex', flexDirection: 'column' }}>
+                    <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-start', paddingLeft: '20px' }}>
                         <p>Company : {user.company.name}</p>
                         <p>City : {user.address.city}</p>
                         <p>Street : {user.address.street}</p>
@@ -82,38 +83,17 @@ class UserDetail extends Component {
         }
     }
 
-    renderUserPost = () => {
-        let { user, posts } = this.state
-        if (posts !== null) {
-            return posts.map((data, index) => {
-                return (
-                    <div key={index}>
-                        {
-                            data.userId == this.props.match.params.id
-                            &&
-                            <div>
-                                <h3>{data.title}</h3>
-                                <h5>{data.body}</h5>
-                                <Link to={`/posts/${data.id}`}>See Comments</Link>
-                            </div>
-                        }
-                    </div>
-                )
-            })
-        }
-    }
-
     renderUserAlbums = () => {
         let { albums } = this.state
         if (albums !== null) {
             return albums.map((data, index) => {
                 return (
-                    <div key={index}>
+                    <div key={index} style={{ backgroundColor: 'white', borderRadius: 5 }}>
                         {
                             data.userId == this.props.match.params.id
                             &&
-                            <div>
-                                <h3>{data.title}</h3>
+                            <div style={{ height: '60px', marginBottom: '20px', display: 'flex', alignItems: 'center' }}>
+                                <p style={{ textAlign: 'left', paddingLeft: '20px' }}>{data.title}</p>
                             </div>
                         }
                     </div>
@@ -124,12 +104,19 @@ class UserDetail extends Component {
 
     render() {
         return (
-            <div>
-                {this.renderUserDetail()}
-                <h3>Post</h3>
-                {this.renderUserPost()}
-                <h3>Albums</h3>
-                {this.renderUserAlbums()}
+            <div style={{ display: 'flex' }}>
+                <div>
+                    {this.renderUserDetail()}
+                </div>
+                <div style={{ marginTop: '20px' }}>
+                    <h5 style={{ textAlign: 'left', marginLeft: '20px' }}>Posts</h5>
+                    <CardPost
+                        posts={this.state.posts} />
+                </div>
+                <div>
+                    <h5 style={{ marginTop: '20px' }}>Albums</h5>
+                    {this.renderUserAlbums()}
+                </div>
             </div>
         )
     }
