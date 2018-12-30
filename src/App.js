@@ -6,6 +6,7 @@ import Header from './components/Header';
 import Home from './containers/Home';
 import User from './containers/User';
 import UserDetail from './components/UserDetail';
+import Article from './containers/Article';
 
 class App extends Component {
   render() {
@@ -17,6 +18,7 @@ class App extends Component {
             <Route exact path="/" component={Home} />
             <Route path="/users" component={User} />
             <Route path="/user/details/:id" component={UserDetail} />
+            <Route path="/post/:id" component={Article} />
           </Switch>
         </div>
       </BrowserRouter>

@@ -29,7 +29,8 @@ class Home extends Component {
         return (
             <div>
                 <CardPost 
-                   posts={this.state.posts} />
+                   posts={this.state.posts}
+                   screen={"home"} />
             </div>
         )
     }
