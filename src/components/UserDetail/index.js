@@ -1,11 +1,12 @@
 import React, { Component } from 'react';
 
 class UserDetail extends Component {
-    state = { user: null, posts: null }
+    state = { user: null, posts: null, albums: null }
 
     componentWillMount() {
         this.handleGetUserDetail()
         this.handleGetUserPost()
+        this.handleGetUserAlbum()
     }
 
     handleGetUserDetail = () => {
@@ -34,6 +35,23 @@ class UserDetail extends Component {
                 console.log(responseJSON)
                 this.setState({
                     posts: responseJSON
+                })
+            })
+            .catch((err) => {
+                console.log(err)
+            })
+    }
+
+    handleGetUserAlbum = () => {
+        let url = `https://jsonplaceholder.typicode.com/albums`;
+        fetch(url, {
+            method: 'GET'
+        })
+            .then((response) => response.json())
+            .then((responseJSON) => {
+                console.log(responseJSON)
+                this.setState({
+                    albums: responseJSON
                 })
             })
             .catch((err) => {
@@ -82,12 +100,34 @@ class UserDetail extends Component {
             })
         }
     }
-    
+
+    renderUserAlbums = () => {
+        let { albums } = this.state
+        if (albums !== null) {
+            return albums.map((data, index) => {
+                return (
+                    <div key={index}>
+                        {
+                            data.userId == this.props.match.params.id
+                            &&
+                            <div>
+                                <h3>{data.title}</h3>
+                            </div>
+                        }
+                    </div>
+                )
+            })
+        }
+    }
+
     render() {
         return (
             <div>
                 {this.renderUserDetail()}
+                <h3>Post</h3>
                 {this.renderUserPost()}
+                <h3>Albums</h3>
+                {this.renderUserAlbums()}
             </div>
         )
     }
