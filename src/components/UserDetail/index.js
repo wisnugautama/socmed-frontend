@@ -77,7 +77,7 @@ class UserDetail extends Component {
                         userId={this.props.match.params.id} />
                 </div>
                 <div>
-                    <h5 style={{ marginTop: '20px' }}>Albums</h5>
+                    <h5 style={{ marginTop: '20px', marginBottom: '20px' }}>Albums</h5>
                     <CardAlbum 
                        albums={this.state.albums}
                        userAlbums={this.props.match.params.id} />

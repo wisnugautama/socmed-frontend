@@ -2,6 +2,17 @@ import React, { Component } from 'react';
 import { Link } from 'react-router-dom'
 
 class CardPost extends Component {
+    handleDeletePost = (id) => {
+        let url = `https://jsonplaceholder.typicode.com/posts/${id}`
+        fetch(url, {
+            method: 'DELETE'
+        })
+            .then((response) => response.json())
+            .then((responseJSON) => {
+                alert('success delete a post')
+                console.log(responseJSON)
+            })
+    }
     renderPosts = () => {
         let { posts, screen } = this.props
         if (posts) {
@@ -29,6 +40,7 @@ class CardPost extends Component {
                         <h5 style={{ textAlign: 'left' }}>{data.title}</h5>
                         <p style={{ textAlign: 'left' }}>{data.body}</p>
                         {this.props.screen !== 'article' && <Link to={`/post/${data.id}`}>See Details</Link>}
+                        {this.props.screen == 'article' && <Link to={`/`} onClick={() => this.handleDeletePost(data.id)}>Delete</Link>}
                     </div>
                 )
             })

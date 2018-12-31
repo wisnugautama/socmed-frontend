@@ -43,6 +43,22 @@ class Article extends Component {
             })
     }
 
+    postComment = () => {
+        fetch('https://jsonplaceholder.typicode.com/posts', {
+            method: 'POST',
+            body: JSON.stringify({
+                title: 'foo',
+                body: 'bar',
+                userId: 1
+            }),
+            headers: {
+                "Content-type": "application/json; charset=UTF-8"
+            }
+        })
+            .then(response => response.json())
+            .then(json => console.log(json))
+    }
+
     renderComments = () => {
         if (this.state.comments !== null) {
             return this.state.comments.map((data, index) => {
@@ -66,11 +82,16 @@ class Article extends Component {
         return (
             <div style={{ display: 'flex', justifyContent: 'center', flexDirection: 'column', alignItems: 'center' }}>
                 <div style={{ marginTop: '20px' }}>
-                <h5 style={{ textAlign: 'center' }}>Posts</h5>
+                    <h5 style={{ textAlign: 'center' }}>Posts</h5>
                     <CardPost
                         posts={this.state.posts}
                         screen={"article"} />
                 </div>
+                {/* <div>
+                    <p>write your comment below</p>
+                    <input type="text" style={{ width: '600px' }} />
+                    <button onClick={this.postComment}>Submit</button>
+                </div> */}
                 <div>
                     <h5 style={{ textAlign: 'left' }}>Comments</h5>
                     {this.renderComments()}
