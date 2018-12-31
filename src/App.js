@@ -16,7 +16,7 @@ class App extends Component {
           <Header />
           <Switch>
             <Route exact path="/" component={Home} />
-            <Route path="/users" component={User} />
+            <Route exact path="/users" component={User} />
             <Route path="/user/details/:id" component={UserDetail} />
             <Route path="/post/:id" component={Article} />
           </Switch>

@@ -40,6 +40,7 @@ class CardPost extends Component {
                         <p style={styles.textStyle}>{data.body}</p>
                         {this.props.screen !== 'article' && <Link to={`/post/${data.id}`}>See Details</Link>}
                         {this.props.screen == 'article' && <Link to={`/`} onClick={() => this.handleDeletePost(data.id)}>Delete</Link>}
+                        {this.props.screen == 'article' && <button onClick={() => this.props.edit(data.id)}>edit</button>}
                     </div>
                 )
             })

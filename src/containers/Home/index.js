@@ -46,7 +46,7 @@ class Home extends Component {
             .then((response) => response.json())
             .then((responseJSON) => {
                 alert('success create a post')
-                newArr.push(responseJSON)
+                newArr.unshift(responseJSON)
                 this.setState({
                     title: '',
                     body: '',

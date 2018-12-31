@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 let newArr = []
 
 class Article extends Component {
-    state = { posts: null, comments: null, title: '', newComment: [] }
+    state = { posts: null, comments: null, title: '', newComment: [], judul: '', body: '', edit: false }
 
     componentWillMount() {
         this.handleGetPosts()
@@ -30,10 +30,36 @@ class Article extends Component {
             .then((response) => response.json())
             .then((responseJSON) => {
                 this.setState({
-                    posts: [responseJSON]
+                    posts: [responseJSON],
+                    judul: responseJSON.title,
+                    body: responseJSON.body
                 })
             })
             .catch((err) => {
+            })
+    }
+
+    handleEditPost = () => {
+        fetch(`https://jsonplaceholder.typicode.com/posts/${this.props.match.params.id}`, {
+            method: 'PUT',
+            body: JSON.stringify({
+                id: 1,
+                title: this.state.judul,
+                body: this.state.body,
+                userId: 1
+            }),
+            headers: {
+                "Content-type": "application/json; charset=UTF-8"
+            }
+        })
+            .then(response => response.json())
+            .then(json => {
+                alert('success edit a post')
+                this.setState({
+                    judul: json.title,
+                    body: json.body,
+                    edit: false
+                })
             })
     }
 
@@ -66,7 +92,7 @@ class Article extends Component {
         })
             .then(response => response.json())
             .then(json => {
-                newArr.push(json)
+                newArr.unshift(json)
                 this.setState({
                     title: '',
                     newComment: newArr
@@ -78,6 +104,18 @@ class Article extends Component {
     handleSetComment = (event) => {
         this.setState({
             title: event.target.value
+        })
+    }
+
+    handleSetJudul = (event) => {
+        this.setState({
+            judul: event.target.value
+        })
+    }
+
+    handleSetBody = (event) => {
+        this.setState({
+            body: event.target.value
         })
     }
 
@@ -115,15 +153,55 @@ class Article extends Component {
         })
     }
 
+    renderEdit = () => {
+        return (
+            <div style={styles.formWrapper}>
+                <h5>Edit Post</h5>
+                <input
+                    type="text"
+                    placeholder="Title"
+                    onChange={this.handleSetJudul}
+                    value={this.state.judul}
+                    style={{ width: '600px', borderRadius: 5, marginBottom: '20px', height: '30px' }} />
+                <input
+                    type="text"
+                    placeholder="whats going on today?"
+                    onChange={this.handleSetBody}
+                    value={this.state.body}
+                    style={{ width: '600px', borderRadius: 5, marginBottom: '20px', height: '70px' }} />
+                <div style={{ display: 'flex' }}>
+                    <button onClick={() => this.setState({ edit: false })}>Cancel</button>
+                    <button onClick={this.handleEditPost}>Edit</button>
+                </div>
+            </div>
+        )
+    }
+
+    handleSetEdit = () => {
+        this.setState({
+            edit: true
+        })
+    }
+
     render() {
         return (
             <div style={styles.contentWrapper}>
-                <div style={{ marginTop: '20px' }}>
-                    <h5 style={{ textAlign: 'center' }}>Posts</h5>
-                    <CardPost
-                        posts={this.state.posts}
-                        screen={"article"} />
-                </div>
+                {
+                    !this.state.edit ?
+                        <div>
+                            <div style={{ marginTop: '20px' }}>
+                                <h5 style={{ textAlign: 'center' }}>Posts</h5>
+                                <CardPost
+                                    posts={this.state.posts}
+                                    screen={"article"}
+                                    edit={this.handleSetEdit} />
+                            </div>
+                        </div>
+                        :
+                        <div>
+                            {this.renderEdit()}
+                        </div>
+                }
                 <div style={{ display: 'flex', flexDirection: 'column' }}>
                     <p>Write your comment below</p>
                     <input
@@ -144,33 +222,38 @@ class Article extends Component {
 }
 
 const styles = {
-    contentWrapper: { 
-        display: 'flex', 
-        justifyContent: 'center', 
-        flexDirection: 'column', 
-        alignItems: 'center' 
+    contentWrapper: {
+        display: 'flex',
+        justifyContent: 'center',
+        flexDirection: 'column',
+        alignItems: 'center'
     },
-    textInputStyle: { 
-        width: '600px', 
-        height: '70px', 
-        marginBottom: '20px' 
+    textInputStyle: {
+        width: '600px',
+        height: '70px',
+        marginBottom: '20px'
     },
-    buttonStyle: { 
-        width: '100px', 
-        marginBottom: '20px' 
+    buttonStyle: {
+        width: '100px',
+        marginBottom: '20px'
     },
-    commentWrapper: { 
-        backgroundColor: 
-        'white', 
-        width: '600px', 
-        marginBottom: '20px' 
+    commentWrapper: {
+        backgroundColor:
+            'white',
+        width: '600px',
+        marginBottom: '20px'
     },
-    commentText: { 
-        textAlign: 'left', 
-        paddingLeft: '20px', 
-        paddingTop: '20px', 
-        paddingBottom: '20px', 
-        paddingRight: '20px' 
+    commentText: {
+        textAlign: 'left',
+        paddingLeft: '20px',
+        paddingTop: '20px',
+        paddingBottom: '20px',
+        paddingRight: '20px'
+    },
+    formWrapper: {
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'center'
     }
 
 }
