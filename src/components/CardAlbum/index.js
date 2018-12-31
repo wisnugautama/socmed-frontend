@@ -14,13 +14,12 @@ class CardAlbum extends Component {
         })
             .then((response) => response.json())
             .then((responseJSON) => {
-                console.log('album photo', responseJSON)
                 this.setState({
                     photos: responseJSON
                 })
             })
             .catch((err) => {
-                console.log(err)
+                alert(err)
             })
     }
 
@@ -41,12 +40,12 @@ class CardAlbum extends Component {
         if (albums !== null) {
             return albums.map((data, index) => {
                 return (
-                    <div key={index} style={{ backgroundColor: 'white', borderRadius: 5 }}>
+                    <div key={index} style={styles.albumWrapper}>
                         {
                             data.userId == this.props.userAlbums
                             &&
-                            <div style={{ height: '60px', marginBottom: '20px', display: 'flex', alignItems: 'center' }}>
-                                <p style={{ textAlign: 'left', paddingLeft: '20px' }}>{data.title}</p>
+                            <div style={styles.albumContent}>
+                                <p style={styles.albumText}>{data.title}</p>
                                 {/* {this.renderPhotos(data.albumId)} */}
                             </div>
                         }
@@ -62,6 +61,23 @@ class CardAlbum extends Component {
                 {this.renderUserAlbums()}
             </div>
         )
+    }
+}
+
+const styles = {
+    albumWrapper: {
+        borderRadius: 5,
+        backgroundColor: 'white'
+    },
+    albumContent: { 
+        height: '60px', 
+        marginBottom: '20px', 
+        display: 'flex', 
+        alignItems: 'center'
+    },
+    albumText: { 
+        textAlign: 'left', 
+        paddingLeft: '20px' 
     }
 }
 

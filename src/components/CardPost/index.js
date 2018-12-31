@@ -10,7 +10,6 @@ class CardPost extends Component {
             .then((response) => response.json())
             .then((responseJSON) => {
                 alert('success delete a post')
-                console.log(responseJSON)
             })
     }
     renderPosts = () => {
@@ -19,13 +18,13 @@ class CardPost extends Component {
             if (!screen) {
                 return posts.map((data, index) => {
                     return (
-                        <div key={index} style={{ marginLeft: 20, marginRight: 20, width: '600px', backgroundColor: 'white', marginBottom: '20px', paddingLeft: '10px', borderRadius: 5, paddingRight: '10px' }}>
+                        <div key={index} style={styles.postWrapper}>
                             {
                                 this.props.userId == data.userId
                                 &&
                                 <div>
-                                    <h5 style={{ textAlign: 'left' }}>{data.title}</h5>
-                                    <p style={{ textAlign: 'left' }}>{data.body}</p>
+                                    <h5 style={styles.textStyle}>{data.title}</h5>
+                                    <p style={styles.textStyle}>{data.body}</p>
                                     {!this.props.screen && <Link to={`/post/${data.id}`}>See Details</Link>}
                                 </div>
                             }
@@ -36,9 +35,9 @@ class CardPost extends Component {
 
             return posts.map((data, index) => {
                 return (
-                    <div key={index} style={{ marginLeft: 20, marginRight: 20, width: '600px', backgroundColor: 'white', marginBottom: '20px', paddingLeft: '10px', borderRadius: 5, paddingRight: '10px' }}>
-                        <h5 style={{ textAlign: 'left' }}>{data.title}</h5>
-                        <p style={{ textAlign: 'left' }}>{data.body}</p>
+                    <div key={index} style={styles.postWrapper}>
+                        <h5 style={styles.textStyle}>{data.title}</h5>
+                        <p style={styles.textStyle}>{data.body}</p>
                         {this.props.screen !== 'article' && <Link to={`/post/${data.id}`}>See Details</Link>}
                         {this.props.screen == 'article' && <Link to={`/`} onClick={() => this.handleDeletePost(data.id)}>Delete</Link>}
                     </div>
@@ -53,6 +52,22 @@ class CardPost extends Component {
                 {this.renderPosts()}
             </div>
         )
+    }
+}
+
+const styles = {
+    postWrapper: { 
+        marginLeft: 20, 
+        marginRight: 20, 
+        width: '600px', 
+        backgroundColor: 'white', 
+        marginBottom: '20px', 
+        paddingLeft: '10px', 
+        borderRadius: 5, 
+        paddingRight: '10px' 
+    },
+    textStyle: { 
+        textAlign: 'left'
     }
 }
 

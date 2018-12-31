@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import CardPost from '../../components/CardPost';
+let newArr = []
 
 class Home extends Component {
     state = {
@@ -20,13 +21,12 @@ class Home extends Component {
         })
             .then((response) => response.json())
             .then((responseJSON) => {
-                console.log(responseJSON)
                 this.setState({
                     posts: responseJSON
                 })
             })
             .catch((err) => {
-                console.log(err)
+                
             })
     }
 
@@ -46,8 +46,6 @@ class Home extends Component {
             .then((response) => response.json())
             .then((responseJSON) => {
                 alert('success create a post')
-                console.log(responseJSON)
-                let newArr = []
                 newArr.push(responseJSON)
                 this.setState({
                     title: '',
@@ -72,10 +70,10 @@ class Home extends Component {
 
     render() {
         return (
-            <div style={{ display: 'flex', justifyContent: 'center', marginTop: '20px', flexDirection: 'row' }}>
+            <div style={styles.homeWrapper}>
                 <div>
                     <h4>Today's News </h4>
-                    <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+                    <div style={styles.formWrapper}>
                         <input
                             type="text"
                             placeholder="Title"
@@ -99,6 +97,20 @@ class Home extends Component {
                 </div>
             </div>
         )
+    }
+}
+
+const styles = {
+    homeWrapper: { 
+        display: 'flex', 
+        justifyContent: 'center', 
+        marginTop: '20px', 
+        flexDirection: 'row' 
+    },
+    formWrapper: { 
+        display: 'flex', 
+        flexDirection: 'column', 
+        alignItems: 'center' 
     }
 }
 

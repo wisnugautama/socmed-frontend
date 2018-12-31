@@ -25,7 +25,7 @@ class UserDetail extends Component {
                 })
             })
             .catch((err) => {
-                console.log(err)
+                
             })
     }
 
@@ -36,13 +36,12 @@ class UserDetail extends Component {
         })
             .then((response) => response.json())
             .then((responseJSON) => {
-                console.log(responseJSON)
                 this.setState({
                     posts: responseJSON
                 })
             })
             .catch((err) => {
-                console.log(err)
+                
             })
     }
 
@@ -53,13 +52,12 @@ class UserDetail extends Component {
         })
             .then((response) => response.json())
             .then((responseJSON) => {
-                console.log(responseJSON)
                 this.setState({
                     albums: responseJSON
                 })
             })
             .catch((err) => {
-                console.log(err)
+                
             })
     }
 
